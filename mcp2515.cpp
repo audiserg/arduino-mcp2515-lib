@@ -1,17 +1,17 @@
-#include "mcp_can.h"
+#include "mcp2515.h"
 
-const struct MCP_CAN::TXBn_REGS MCP_CAN::TXB[MCP_CAN::N_TXBUFFERS] = {
+const struct MCP2515::TXBn_REGS MCP2515::TXB[MCP2515::N_TXBUFFERS] = {
     {MCP_TXB0CTRL, MCP_TXB0SIDH, MCP_TXB0DATA},
     {MCP_TXB1CTRL, MCP_TXB1SIDH, MCP_TXB1DATA},
     {MCP_TXB2CTRL, MCP_TXB2SIDH, MCP_TXB2DATA}
 };
 
-const struct MCP_CAN::RXBn_REGS MCP_CAN::RXB[N_RXBUFFERS] = {
+const struct MCP2515::RXBn_REGS MCP2515::RXB[N_RXBUFFERS] = {
     {MCP_RXB0CTRL, MCP_RXB0SIDH, MCP_RXB0DATA, CANINTF_RX0IF},
     {MCP_RXB1CTRL, MCP_RXB1SIDH, MCP_RXB1DATA, CANINTF_RX1IF}
 };
 
-MCP_CAN::MCP_CAN(const uint8_t _CS)
+MCP2515::MCP2515(const uint8_t _CS)
 {
     SPI.begin();
 
@@ -20,17 +20,17 @@ MCP_CAN::MCP_CAN(const uint8_t _CS)
     endSPI();
 }
 
-void MCP_CAN::startSPI() {
+void MCP2515::startSPI() {
     SPI.beginTransaction(SPISettings(SPI_CLOCK, MSBFIRST, SPI_MODE0));
     digitalWrite(SPICS, LOW);
 }
 
-void MCP_CAN::endSPI() {
+void MCP2515::endSPI() {
     digitalWrite(SPICS, HIGH);
     SPI.endTransaction();
 }
 
-MCP_CAN::ERROR MCP_CAN::reset(void)
+MCP2515::ERROR MCP2515::reset(void)
 {
     startSPI();
     SPI.transfer(INSTRUCTION_RESET);
@@ -74,7 +74,7 @@ MCP_CAN::ERROR MCP_CAN::reset(void)
     return ERROR_OK;
 }
 
-uint8_t MCP_CAN::readRegister(const REGISTER reg)
+uint8_t MCP2515::readRegister(const REGISTER reg)
 {
     startSPI();
     SPI.transfer(INSTRUCTION_READ);
@@ -85,7 +85,7 @@ uint8_t MCP_CAN::readRegister(const REGISTER reg)
     return ret;
 }
 
-void MCP_CAN::readRegisters(const REGISTER reg, uint8_t values[], const uint8_t n)
+void MCP2515::readRegisters(const REGISTER reg, uint8_t values[], const uint8_t n)
 {
     startSPI();
     SPI.transfer(INSTRUCTION_READ);
@@ -97,7 +97,7 @@ void MCP_CAN::readRegisters(const REGISTER reg, uint8_t values[], const uint8_t 
     endSPI();
 }
 
-void MCP_CAN::setRegister(const REGISTER reg, const uint8_t value)
+void MCP2515::setRegister(const REGISTER reg, const uint8_t value)
 {
     startSPI();
     SPI.transfer(INSTRUCTION_WRITE);
@@ -106,7 +106,7 @@ void MCP_CAN::setRegister(const REGISTER reg, const uint8_t value)
     endSPI();
 }
 
-void MCP_CAN::setRegisters(const REGISTER reg, const uint8_t values[], const uint8_t n)
+void MCP2515::setRegisters(const REGISTER reg, const uint8_t values[], const uint8_t n)
 {
     startSPI();
     SPI.transfer(INSTRUCTION_WRITE);
@@ -117,7 +117,7 @@ void MCP_CAN::setRegisters(const REGISTER reg, const uint8_t values[], const uin
     endSPI();
 }
 
-void MCP_CAN::modifyRegister(const REGISTER reg, const uint8_t mask, const uint8_t data)
+void MCP2515::modifyRegister(const REGISTER reg, const uint8_t mask, const uint8_t data)
 {
     startSPI();
     SPI.transfer(INSTRUCTION_BITMOD);
@@ -127,7 +127,7 @@ void MCP_CAN::modifyRegister(const REGISTER reg, const uint8_t mask, const uint8
     endSPI();
 }
 
-uint8_t MCP_CAN::getStatus(void)
+uint8_t MCP2515::getStatus(void)
 {
     startSPI();
     SPI.transfer(INSTRUCTION_READ_STATUS);
@@ -137,32 +137,32 @@ uint8_t MCP_CAN::getStatus(void)
     return i;
 }
 
-MCP_CAN::ERROR MCP_CAN::setConfigMode()
+MCP2515::ERROR MCP2515::setConfigMode()
 {
     return setMode(CANCTRL_REQOP_CONFIG);
 }
 
-MCP_CAN::ERROR MCP_CAN::setListenOnlyMode()
+MCP2515::ERROR MCP2515::setListenOnlyMode()
 {
     return setMode(CANCTRL_REQOP_LISTENONLY);
 }
 
-MCP_CAN::ERROR MCP_CAN::setSleepMode()
+MCP2515::ERROR MCP2515::setSleepMode()
 {
     return setMode(CANCTRL_REQOP_SLEEP);
 }
 
-MCP_CAN::ERROR MCP_CAN::setLoopbackMode()
+MCP2515::ERROR MCP2515::setLoopbackMode()
 {
     return setMode(CANCTRL_REQOP_LOOPBACK);
 }
 
-MCP_CAN::ERROR MCP_CAN::setNormalMode()
+MCP2515::ERROR MCP2515::setNormalMode()
 {
     return setMode(CANCTRL_REQOP_NORMAL);
 }
 
-MCP_CAN::ERROR MCP_CAN::setMode(const CANCTRL_REQOP_MODE mode)
+MCP2515::ERROR MCP2515::setMode(const CANCTRL_REQOP_MODE mode)
 {
     modifyRegister(MCP_CANCTRL, CANCTRL_REQOP, mode);
 
@@ -183,7 +183,7 @@ MCP_CAN::ERROR MCP_CAN::setMode(const CANCTRL_REQOP_MODE mode)
 
 }
 
-MCP_CAN::ERROR MCP_CAN::setBitrate(const CAN_SPEED canSpeed)
+MCP2515::ERROR MCP2515::setBitrate(const CAN_SPEED canSpeed)
 {
     ERROR error = setConfigMode();
     if (error != ERROR_OK) {
@@ -306,7 +306,7 @@ MCP_CAN::ERROR MCP_CAN::setBitrate(const CAN_SPEED canSpeed)
     }
 }
 
-void MCP_CAN::prepareId(uint8_t *buffer, const bool ext, const uint32_t id)
+void MCP2515::prepareId(uint8_t *buffer, const bool ext, const uint32_t id)
 {
     uint16_t canid = (uint16_t)(id & 0x0FFFF);
 
@@ -326,7 +326,7 @@ void MCP_CAN::prepareId(uint8_t *buffer, const bool ext, const uint32_t id)
     }
 }
 
-MCP_CAN::ERROR MCP_CAN::setFilterMask(const MASK mask, const bool ext, const uint32_t ulData)
+MCP2515::ERROR MCP2515::setFilterMask(const MASK mask, const bool ext, const uint32_t ulData)
 {
     ERROR res = setConfigMode();
     if (res != ERROR_OK) {
@@ -349,7 +349,7 @@ MCP_CAN::ERROR MCP_CAN::setFilterMask(const MASK mask, const bool ext, const uin
     return ERROR_OK;
 }
 
-MCP_CAN::ERROR MCP_CAN::setFilter(const RXF num, const bool ext, const uint32_t ulData)
+MCP2515::ERROR MCP2515::setFilter(const RXF num, const bool ext, const uint32_t ulData)
 {
     ERROR res = setConfigMode();
     if (res != ERROR_OK) {
@@ -376,7 +376,7 @@ MCP_CAN::ERROR MCP_CAN::setFilter(const RXF num, const bool ext, const uint32_t 
     return ERROR_OK;
 }
 
-MCP_CAN::ERROR MCP_CAN::sendMessage(const TXBn txbn, const struct can_frame *frame)
+MCP2515::ERROR MCP2515::sendMessage(const TXBn txbn, const struct can_frame *frame)
 {
     const struct TXBn_REGS *txbuf = &TXB[txbn];
 
@@ -399,7 +399,7 @@ MCP_CAN::ERROR MCP_CAN::sendMessage(const TXBn txbn, const struct can_frame *fra
     return ERROR_OK;
 }
 
-MCP_CAN::ERROR MCP_CAN::sendMessage(const struct can_frame *frame)
+MCP2515::ERROR MCP2515::sendMessage(const struct can_frame *frame)
 {
     if (frame->can_dlc > CAN_MAX_DLEN) {
         return ERROR_FAILTX;
@@ -418,7 +418,7 @@ MCP_CAN::ERROR MCP_CAN::sendMessage(const struct can_frame *frame)
     return ERROR_FAILTX;
 }
 
-MCP_CAN::ERROR MCP_CAN::readMessage(const RXBn rxbn, struct can_frame *frame)
+MCP2515::ERROR MCP2515::readMessage(const RXBn rxbn, struct can_frame *frame)
 {
     const struct RXBn_REGS *rxb = &RXB[rxbn];
 
@@ -455,7 +455,7 @@ MCP_CAN::ERROR MCP_CAN::readMessage(const RXBn rxbn, struct can_frame *frame)
     return ERROR_OK;
 }
 
-MCP_CAN::ERROR MCP_CAN::readMessage(struct can_frame *frame)
+MCP2515::ERROR MCP2515::readMessage(struct can_frame *frame)
 {
     ERROR rc;
     uint8_t stat = getStatus();
@@ -471,7 +471,7 @@ MCP_CAN::ERROR MCP_CAN::readMessage(struct can_frame *frame)
     return rc;
 }
 
-bool MCP_CAN::checkReceive(void)
+bool MCP2515::checkReceive(void)
 {
     uint8_t res = getStatus();
     if ( res & STAT_RXIF_MASK ) {
@@ -481,7 +481,7 @@ bool MCP_CAN::checkReceive(void)
     }
 }
 
-bool MCP_CAN::checkError(void)
+bool MCP2515::checkError(void)
 {
     uint8_t eflg = getErrorFlags();
 
@@ -492,37 +492,37 @@ bool MCP_CAN::checkError(void)
     }
 }
 
-uint8_t MCP_CAN::getErrorFlags(void)
+uint8_t MCP2515::getErrorFlags(void)
 {
     return readRegister(MCP_EFLG);
 }
 
-void MCP_CAN::clearRXnOVRFlags(void)
+void MCP2515::clearRXnOVRFlags(void)
 {
 	modifyRegister(MCP_EFLG, EFLG_RX0OVR | EFLG_RX1OVR, 0);
 }
 
-uint8_t MCP_CAN::getInterrupts(void)
+uint8_t MCP2515::getInterrupts(void)
 {
     return readRegister(MCP_CANINTF);
 }
 
-void MCP_CAN::clearInterrupts(void)
+void MCP2515::clearInterrupts(void)
 {
     setRegister(MCP_CANINTF, 0);
 }
 
-uint8_t MCP_CAN::getInterruptMask(void)
+uint8_t MCP2515::getInterruptMask(void)
 {
     return readRegister(MCP_CANINTE);
 }
 
-void MCP_CAN::clearTXInterrupts(void)
+void MCP2515::clearTXInterrupts(void)
 {
     modifyRegister(MCP_CANINTF, (CANINTF_TX0IF | CANINTF_TX1IF | CANINTF_TX2IF), 0);
 }
 
-void MCP_CAN::clearRXnOVR(void)
+void MCP2515::clearRXnOVR(void)
 {
 	uint8_t eflg = getErrorFlags();
 	if (eflg != 0) {

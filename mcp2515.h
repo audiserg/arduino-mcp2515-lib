@@ -96,7 +96,7 @@ enum CAN_SPEED {
     CAN_1000KBPS
 };
 
-class MCP_CAN
+class MCP2515
 {
     public:
         enum ERROR {
@@ -348,7 +348,7 @@ class MCP_CAN
         void prepareId(uint8_t *buffer, const bool ext, const uint32_t id);
     
     public:
-        MCP_CAN(const uint8_t _CS);
+        MCP2515(const uint8_t _CS);
         ERROR reset(void);
         ERROR setConfigMode();
         ERROR setListenOnlyMode();

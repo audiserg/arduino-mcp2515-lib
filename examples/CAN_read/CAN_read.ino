@@ -1,8 +1,8 @@
 #include <SPI.h>
-#include <mcp_can.h>
+#include <mcp2515.h>
 
 struct can_frame canMsg;
-MCP_CAN mcp2515(10);
+MCP2515 mcp2515(10);
 
 
 void setup() {
