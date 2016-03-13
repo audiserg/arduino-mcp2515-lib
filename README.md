@@ -57,7 +57,7 @@ enum CAN_SPEED {
 <br>
 Example of initialization
 ```C++
-MCP_CAN mcp2515(10);
+MCP2515 mcp2515(10);
 mcp2515.reset();
 mcp2515.setBitrate(CAN_125KBPS);
 mcp2515.setLoopbackMode();
@@ -80,8 +80,8 @@ For additional information see [SocketCAN](https://www.kernel.org/doc/Documentat
 
 ## 3. Send Data
 ```C++
-MCP_CAN::ERROR sendMessage(const MCP_CAN::TXBn txbn, const struct can_frame *frame);
-MCP_CAN::ERROR sendMessage(const struct can_frame *frame);
+MCP2515::ERROR sendMessage(const MCP2515::TXBn txbn, const struct can_frame *frame);
+MCP2515::ERROR sendMessage(const struct can_frame *frame);
 ```
 
 This is a function to send data onto the bus. 
@@ -111,7 +111,7 @@ frame.data[1] = 0xFF;
 
 /* send out the message to the bus using second TX buffer and 
 tell other devices this is a extended frame from 0x12345678. */
-mcp2515.sendMessage(MCP_CAN::TXB1, &frame);
+mcp2515.sendMessage(MCP2515::TXB1, &frame);
 ```
 
 
@@ -121,8 +121,8 @@ mcp2515.sendMessage(MCP_CAN::TXB1, &frame);
 The following function is used to receive data on the 'receive' node:
 
 ```C++
-MCP_CAN::ERROR readMessage(const MCP_CAN::RXBn rxbn, struct can_frame *frame);
-MCP_CAN::ERROR readMessage(struct can_frame *frame);
+MCP2515::ERROR readMessage(const MCP2515::RXBn rxbn, struct can_frame *frame);
+MCP2515::ERROR readMessage(struct can_frame *frame);
 ```
 
 In conditions that masks and filters have been set. This function can only get frames that meet the requirements of masks and filters.
@@ -135,7 +135,7 @@ Example of poll read
 struct can_frame frame;
 
 void loop() {
-    if (mcp2515.readMessage(&frame) == MCP_CAN::ERROR_OK) {
+    if (mcp2515.readMessage(&frame) == MCP2515::ERROR_OK) {
         // frame contains received message
     }
 }
@@ -161,14 +161,14 @@ void loop() {
        
         uint8_t irq = mcp2515.getInterrupts();
         
-        if (irq & MCP_CAN::CANINTF_RX0IF) {
-            if (mcp2515.readMessage(MCP_CAN::RXB0, &frame) == MCP_CAN::ERROR_OK) {
+        if (irq & MCP2515::CANINTF_RX0IF) {
+            if (mcp2515.readMessage(MCP2515::RXB0, &frame) == MCP2515::ERROR_OK) {
                 // frame contains received from RXB0 message
             }
         }
             
-        if (irq & MCP_CAN::CANINTF_RX1IF) {
-            if (mcp2515.readMessage(MCP_CAN::RXB1, &frame) == MCP_CAN::ERROR_OK) {
+        if (irq & MCP2515::CANINTF_RX1IF) {
+            if (mcp2515.readMessage(MCP2515::RXB1, &frame) == MCP2515::ERROR_OK) {
                 // frame contains received from RXB1 message
             }
         }
@@ -183,13 +183,13 @@ There are 2 receive mask registers and 5 filter registers on the controller chip
 We provide two functions for you to utilize these mask and filter registers. They are:
 
 ```C++
-MCP_CAN::ERROR setFilterMask(const MASK mask, const bool ext, const uint32_t ulData)
-MCP_CAN::ERROR setFilter(const RXF num, const bool ext, const uint32_t ulData)
+MCP2515::ERROR setFilterMask(const MASK mask, const bool ext, const uint32_t ulData)
+MCP2515::ERROR setFilter(const RXF num, const bool ext, const uint32_t ulData)
 ```
 
-**MASK mask** represents one of two mask **MCP_CAN::MASK0** or **MCP_CAN::MASK1**
+**MASK mask** represents one of two mask **MCP2515::MASK0** or **MCP2515::MASK1**
 
-**RXF num** represents one of six acceptance filters registers from **MCP_CAN::RXF0** to **MCP_CAN::RXF5**
+**RXF num** represents one of six acceptance filters registers from **MCP2515::RXF0** to **MCP2515::RXF5**
 
 **ext** represents the status of the frame. **false** means it's a mask or filter for a standard frame. **true** means it's for a extended frame.
 
