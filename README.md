@@ -9,6 +9,12 @@ CAN-BUS is a common industrial bus because of its long travel distance, medium c
 - SPI Interface up to 10 MHz
 - Standard (11 bit) and extended (29 bit) data and remote frames
 - Two receive buffers with prioritized message storage
+-
+## Library Installation
+
+1. Download the ZIP file from https://github.com/autowp/arduino-mcp2515/archive/master.zip
+2. From the Arduino IDE: Sketch -> Include Library... -> Add .ZIP Library...
+3. Restart the Arduino IDE to see the new "mcp2515" library with examples
 
 
 <br>
