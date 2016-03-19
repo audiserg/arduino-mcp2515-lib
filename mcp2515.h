@@ -372,7 +372,7 @@ class MCP2515
         void clearTXInterrupts(void);
         uint8_t getStatus(void);
         void clearRXnOVR(void);
-
+        void clearMERR();
 };
 
 #endif

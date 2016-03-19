@@ -47,7 +47,7 @@ MCP2515::ERROR MCP2515::reset(void)
     setRegister(MCP_RXB0CTRL, 0);
     setRegister(MCP_RXB1CTRL, 0);
 
-    setRegister(MCP_CANINTE, CANINTF_RX0IF | CANINTF_RX1IF | CANINTF_ERRIF);
+    setRegister(MCP_CANINTE, CANINTF_RX0IF | CANINTF_RX1IF | CANINTF_ERRIF | CANINTF_MERRF);
 
     modifyRegister(MCP_RXB0CTRL,
                    RXBnCTRL_RXM_MASK | RXB0CTRL_BUKT,
@@ -531,4 +531,11 @@ void MCP2515::clearRXnOVR(void)
 		//modifyRegister(MCP_CANINTF, CANINTF_ERRIF, 0);
 	}
 	
+}
+
+void MCP2515::clearMERR()
+{
+	//modifyRegister(MCP_EFLG, EFLG_RX0OVR | EFLG_RX1OVR, 0);
+	//clearInterrupts();
+	modifyRegister(MCP_CANINTF, CANINTF_MERRF, 0);
 }
