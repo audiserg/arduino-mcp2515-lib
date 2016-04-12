@@ -19,7 +19,7 @@ void setup() {
 
 void loop() {
   
-  if (mcp2515.readMessage(&canMsg) == MCP_CAN::ERROR_OK) {
+  if (mcp2515.readMessage(&canMsg) == MCP2515::ERROR_OK) {
       
     Serial.print(canMsg.can_id, HEX); // print ID
     Serial.print(" "); 
