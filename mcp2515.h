@@ -5,6 +5,65 @@
 #include "can.h"
 
 /*
+ *  Speed 8M
+ */
+#define MCP_8MHz_1000kBPS_CFG1 (0x00)
+#define MCP_8MHz_1000kBPS_CFG2 (0x80)
+#define MCP_8MHz_1000kBPS_CFG3 (0x80)
+
+#define MCP_8MHz_500kBPS_CFG1 (0x00)
+#define MCP_8MHz_500kBPS_CFG2 (0x90)
+#define MCP_8MHz_500kBPS_CFG3 (0x82)
+
+#define MCP_8MHz_250kBPS_CFG1 (0x00)
+#define MCP_8MHz_250kBPS_CFG2 (0xB1)
+#define MCP_8MHz_250kBPS_CFG3 (0x85)
+
+#define MCP_8MHz_200kBPS_CFG1 (0x00)
+#define MCP_8MHz_200kBPS_CFG2 (0xB4)
+#define MCP_8MHz_200kBPS_CFG3 (0x86)
+
+#define MCP_8MHz_125kBPS_CFG1 (0x01)
+#define MCP_8MHz_125kBPS_CFG2 (0xB1)
+#define MCP_8MHz_125kBPS_CFG3 (0x85)
+
+#define MCP_8MHz_100kBPS_CFG1 (0x01)
+#define MCP_8MHz_100kBPS_CFG2 (0xB4)
+#define MCP_8MHz_100kBPS_CFG3 (0x86)
+
+#define MCP_8MHz_80kBPS_CFG1 (0x01)
+#define MCP_8MHz_80kBPS_CFG2 (0xBF)
+#define MCP_8MHz_80kBPS_CFG3 (0x87)
+
+#define MCP_8MHz_50kBPS_CFG1 (0x03)
+#define MCP_8MHz_50kBPS_CFG2 (0xB4)
+#define MCP_8MHz_50kBPS_CFG3 (0x86)
+
+#define MCP_8MHz_40kBPS_CFG1 (0x03)
+#define MCP_8MHz_40kBPS_CFG2 (0xBF)
+#define MCP_8MHz_40kBPS_CFG3 (0x87)
+
+#define MCP_8MHz_33k3BPS_CFG1 (0x47)
+#define MCP_8MHz_33k3BPS_CFG2 (0xE2)
+#define MCP_8MHz_33k3BPS_CFG3 (0x85)
+
+#define MCP_8MHz_31k25BPS_CFG1 (0x07)
+#define MCP_8MHz_31k25BPS_CFG2 (0xA4)
+#define MCP_8MHz_31k25BPS_CFG3 (0x84)
+
+#define MCP_8MHz_20kBPS_CFG1 (0x07)
+#define MCP_8MHz_20kBPS_CFG2 (0xBF)
+#define MCP_8MHz_20kBPS_CFG3 (0x87)
+
+#define MCP_8MHz_10kBPS_CFG1 (0x0F)
+#define MCP_8MHz_10kBPS_CFG2 (0xBF)
+#define MCP_8MHz_10kBPS_CFG3 (0x87)
+
+#define MCP_8MHz_5kBPS_CFG1 (0x1F)
+#define MCP_8MHz_5kBPS_CFG2 (0xBF)
+#define MCP_8MHz_5kBPS_CFG3 (0x87)
+
+/*
  *  speed 16M
  */
 #define MCP_16MHz_1000kBPS_CFG1 (0x00)
@@ -31,20 +90,6 @@
 #define MCP_16MHz_100kBPS_CFG2 (0xFA)
 #define MCP_16MHz_100kBPS_CFG3 (0x87)
 
-/*
-#define MCP_16MHz_100kBPS_CFG1 (0x03)
-#define MCP_16MHz_100kBPS_CFG2 (0xBA)
-#define MCP_16MHz_100kBPS_CFG3 (0x07)
-*/
-
-#define MCP_16MHz_95kBPS_CFG1 (0x03)
-#define MCP_16MHz_95kBPS_CFG2 (0xAD)
-#define MCP_16MHz_95kBPS_CFG3 (0x07)
-
-#define MCP_16MHz_83k3BPS_CFG1 (0x03)
-#define MCP_16MHz_83k3BPS_CFG2 (0xBE)
-#define MCP_16MHz_83k3BPS_CFG3 (0x07)
-
 #define MCP_16MHz_80kBPS_CFG1 (0x03)
 #define MCP_16MHz_80kBPS_CFG2 (0xFF)
 #define MCP_16MHz_80kBPS_CFG3 (0x87)
@@ -57,13 +102,9 @@
 #define MCP_16MHz_40kBPS_CFG2 (0xFF)
 #define MCP_16MHz_40kBPS_CFG3 (0x87)
 
-#define MCP_16MHz_33kBPS_CFG1 (0x09)
-#define MCP_16MHz_33kBPS_CFG2 (0xBE)
-#define MCP_16MHz_33kBPS_CFG3 (0x07)
-
-#define MCP_16MHz_31k25BPS_CFG1 (0x0F)
-#define MCP_16MHz_31k25BPS_CFG2 (0xF1)
-#define MCP_16MHz_31k25BPS_CFG3 (0x85)
+#define MCP_16MHz_33k3BPS_CFG1 (0x4E)
+#define MCP_16MHz_33k3BPS_CFG2 (0xF1)
+#define MCP_16MHz_33k3BPS_CFG3 (0x85)
 
 #define MCP_16MHz_20kBPS_CFG1 (0x0F)
 #define MCP_16MHz_20kBPS_CFG2 (0xFF)
@@ -76,6 +117,49 @@
 #define MCP_16MHz_5kBPS_CFG1 (0x3F)
 #define MCP_16MHz_5kBPS_CFG2 (0xFF)
 #define MCP_16MHz_5kBPS_CFG3 (0x87)
+
+/*
+ *  speed 20M
+ */
+#define MCP_20MHz_1000kBPS_CFG1 (0x00)
+#define MCP_20MHz_1000kBPS_CFG2 (0xD9)
+#define MCP_20MHz_1000kBPS_CFG3 (0x82)
+
+#define MCP_20MHz_500kBPS_CFG1 (0x00)
+#define MCP_20MHz_500kBPS_CFG2 (0xFA)
+#define MCP_20MHz_500kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_250kBPS_CFG1 (0x41)
+#define MCP_20MHz_250kBPS_CFG2 (0xFB)
+#define MCP_20MHz_250kBPS_CFG3 (0x86)
+
+#define MCP_20MHz_200kBPS_CFG1 (0x01)
+#define MCP_20MHz_200kBPS_CFG2 (0xFF)
+#define MCP_20MHz_200kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_125kBPS_CFG1 (0x03)
+#define MCP_20MHz_125kBPS_CFG2 (0xFA)
+#define MCP_20MHz_125kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_100kBPS_CFG1 (0x04)
+#define MCP_20MHz_100kBPS_CFG2 (0xFA)
+#define MCP_20MHz_100kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_80kBPS_CFG1 (0x04)
+#define MCP_20MHz_80kBPS_CFG2 (0xFF)
+#define MCP_20MHz_80kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_50kBPS_CFG1 (0x09)
+#define MCP_20MHz_50kBPS_CFG2 (0xFA)
+#define MCP_20MHz_50kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_40kBPS_CFG1 (0x09)
+#define MCP_20MHz_40kBPS_CFG2 (0xFF)
+#define MCP_20MHz_40kBPS_CFG3 (0x87)
+
+#define MCP_20MHZ    0
+#define MCP_16MHZ    1
+#define MCP_8MHZ     2
 
 enum CAN_SPEED {
     CAN_5KBPS,
@@ -355,7 +439,7 @@ class MCP2515
         ERROR setSleepMode();
         ERROR setLoopbackMode();
         ERROR setNormalMode();
-        ERROR setBitrate(const CAN_SPEED canSpeed);
+        ERROR setBitrate(const CAN_SPEED canSpeed, const uint8_t canClock);
         ERROR setFilterMask(const MASK num, const bool ext, const uint32_t ulData);
         ERROR setFilter(const RXF num, const bool ext, const uint32_t ulData);
         ERROR sendMessage(const TXBn txbn, const struct can_frame *frame);
