@@ -441,6 +441,7 @@ class MCP2515
         ERROR setSleepMode();
         ERROR setLoopbackMode();
         ERROR setNormalMode();
+        ERROR setBitrate(const CAN_SPEED canSpeed);
         ERROR setBitrate(const CAN_SPEED canSpeed, const CAN_CLOCK canClock);
         ERROR setFilterMask(const MASK num, const bool ext, const uint32_t ulData);
         ERROR setFilter(const RXF num, const bool ext, const uint32_t ulData);
