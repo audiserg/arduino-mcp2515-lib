@@ -157,9 +157,11 @@
 #define MCP_20MHz_40kBPS_CFG2 (0xFF)
 #define MCP_20MHz_40kBPS_CFG3 (0x87)
 
-#define MCP_20MHZ    0
-#define MCP_16MHZ    1
-#define MCP_8MHZ     2
+enum CAN_CLOCK {
+    MCP_20MHZ,
+    MCP_16MHZ,
+    MCP_8MHZ
+};
 
 enum CAN_SPEED {
     CAN_5KBPS,
@@ -439,7 +441,7 @@ class MCP2515
         ERROR setSleepMode();
         ERROR setLoopbackMode();
         ERROR setNormalMode();
-        ERROR setBitrate(const CAN_SPEED canSpeed, const uint8_t canClock);
+        ERROR setBitrate(const CAN_SPEED canSpeed, const CAN_CLOCK canClock);
         ERROR setFilterMask(const MASK num, const bool ext, const uint32_t ulData);
         ERROR setFilter(const RXF num, const bool ext, const uint32_t ulData);
         ERROR sendMessage(const TXBn txbn, const struct can_frame *frame);

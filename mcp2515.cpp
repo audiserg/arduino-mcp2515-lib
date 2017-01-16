@@ -183,7 +183,7 @@ MCP2515::ERROR MCP2515::setMode(const CANCTRL_REQOP_MODE mode)
 
 }
 
-MCP2515::ERROR MCP2515::setBitrate(const CAN_SPEED canSpeed, uint8_t canClock)
+MCP2515::ERROR MCP2515::setBitrate(const CAN_SPEED canSpeed, CAN_CLOCK canClock)
 {
     ERROR error = setConfigMode();
     if (error != ERROR_OK) {
