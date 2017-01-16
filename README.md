@@ -64,6 +64,23 @@ mcp2515.setLoopbackMode();
 ```
 <br>
 
+<br>
+You can also set oscillator frequency for module when setting bitrate:
+```C++
+mcp2515.setBitrate(CAN_125KBPS, MCP_8MHZ);
+```
+<br>
+The available clock speeds are listed as follows:
+```C++
+enum CAN_CLOCK {
+    MCP_20MHZ,
+    MCP_16MHZ,
+    MCP_8MHZ
+};
+```
+Default value is MCP_16MHZ
+<br>
+
 Note: To transfer data on high speed of CAN interface via UART dont forget to update UART baudrate as necessary.
 
 ##2. Frame data format
