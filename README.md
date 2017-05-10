@@ -54,23 +54,28 @@ enum CAN_SPEED {
 };
 ```
 
-<br>
+
 Example of initialization
+
 ```C++
 MCP2515 mcp2515(10);
 mcp2515.reset();
 mcp2515.setBitrate(CAN_125KBPS);
 mcp2515.setLoopbackMode();
 ```
+
 <br>
 
 <br>
 You can also set oscillator frequency for module when setting bitrate:
+
 ```C++
 mcp2515.setBitrate(CAN_125KBPS, MCP_8MHZ);
 ```
+
 <br>
 The available clock speeds are listed as follows:
+
 ```C++
 enum CAN_CLOCK {
     MCP_20MHZ,
@@ -78,6 +83,7 @@ enum CAN_CLOCK {
     MCP_8MHZ
 };
 ```
+
 Default value is MCP_16MHZ
 <br>
 
@@ -86,6 +92,7 @@ Note: To transfer data on high speed of CAN interface via UART dont forget to up
 ##2. Frame data format
 
 Library uses Linux-like structure to store can frames;
+
 ```C++
 struct can_frame {
     uint32_t can_id;  /* 32 bit CAN_ID + EFF/RTR/ERR flags */
@@ -93,9 +100,11 @@ struct can_frame {
     uint8_t  data[8];
 };
 ```
+
 For additional information see [SocketCAN](https://www.kernel.org/doc/Documentation/networking/can.txt)
 
 ## 3. Send Data
+
 ```C++
 MCP2515::ERROR sendMessage(const MCP2515::TXBn txbn, const struct can_frame *frame);
 MCP2515::ERROR sendMessage(const struct can_frame *frame);
@@ -159,6 +168,7 @@ void loop() {
 ```
 
 Example of interrupt based read
+
 ```C++
 bool interrupt = false;
 struct can_frame frame;
@@ -192,6 +202,7 @@ void loop() {
     }
 }
 ```
+
 <br>
 ##5. Set Receive Mask and Filter
 
